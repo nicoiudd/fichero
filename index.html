@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Comparador de ubicaciones</title>
+</head>
+<body>
+  <button onclick="verificarUbicacion()">Llegue al trabajo</button>
+  <p id="resultado"></p>
+
+  <script>
+    function calcularDistancia(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Radio de la Tierra en kilómetros
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distanciaMetros = R * c * 1000; // Convertir a metros
+      return distanciaMetros;
+    }
+
+    function verificarUbicacion() {
+      const direccionTrabajo = {
+        lat: -34.6034658,  // Latitud exacta de la nueva dirección del trabajo
+        lon: -58.4702144   // Longitud exacta de la nueva dirección del trabajo
+      };
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const distancia = calcularDistancia(
+            position.coords.latitude,
+            position.coords.longitude,
+            direccionTrabajo.lat,
+            direccionTrabajo.lon
+          );
+
+          const umbralDistancia = 50;  // Umbral de distancia en metros para considerar como similar
+          const esSimilar = distancia <= umbralDistancia;
+
+          const resultadoElement = document.getElementById('resultado');
+          if (esSimilar) {
+            resultadoElement.textContent = `La ubicación es similar a la dirección del trabajo. Distancia: ${distancia.toFixed(2)} metros. Latitud (trabajo): ${direccionTrabajo.lat}, Longitud (trabajo): ${direccionTrabajo.lon}. Latitud (actual): ${position.coords.latitude}, Longitud (actual): ${position.coords.longitude}.`;
+          } else {
+            const diferencia = Math.abs(distancia - umbralDistancia);
+            resultadoElement.textContent = `La ubicación no es similar a la dirección del trabajo. Diferencia: ${diferencia.toFixed(2)} metros. Latitud (trabajo): ${direccionTrabajo.lat}, Longitud (trabajo): ${direccionTrabajo.lon}. Latitud (actual): ${position.coords.latitude}, Longitud (actual): ${position.coords.longitude}.`;
+          }
+        },
+        (error) => {
+          console.error('Error al obtener la ubicación:', error);
+          document.getElementById('resultado').textContent = 'No se pudo obtener la ubicación.';
+        }
+      );
+    }
+  </script>
+</body>
+</html>
