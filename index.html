@@ -2,16 +2,80 @@
 <html>
 <head>
   <title>Comparador de ubicaciones</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    section {
+      max-width: 400px;
+      padding: 20px;
+      margin: auto;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 16px;
+      display: block;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultado {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <h1>BUEN DIA! </h1>
-    <h3>Si usted llego al trabajo llene el formulario y envie!</h3>
-
+  <section>
+    <h1>BUEN DÍA!</h1>
+    <h3>Si usted llegó al trabajo, llene el formulario y envíe.</h3>
     <label for="dni">Número de DNI:</label><br>
     <input type="text" id="dni" name="dni"><br>
-    
-  <button onclick="verificarUbicacion()">Llegue al trabajo</button>
-  <p id="resultado"></p>
+    <button onclick="verificarUbicacion()">Llegué al trabajo</button>
+    <p id="resultado"></p>
+  </section>
 
   <script>
     function calcularDistancia(lat1, lon1, lat2, lon2) {
