@@ -111,15 +111,15 @@
 
           const resultadoElement = document.getElementById('resultado');
           if (esSimilar) {
-            resultadoElement.textContent = `La ubicación es similar a la dirección del trabajo. Distancia: ${distancia.toFixed(2)} metros. Latitud (trabajo): ${direccionTrabajo.lat}, Longitud (trabajo): ${direccionTrabajo.lon}. Latitud (actual): ${position.coords.latitude}, Longitud (actual): ${position.coords.longitude}.`;
+            resultadoElement.textContent = `La ubicación es similar a la dirección del trabajo. Usted ya registro su llegada. Que tenga buena jornada!`;
           } else {
             const diferencia = Math.abs(distancia - umbralDistancia);
-            resultadoElement.textContent = `La ubicación no es similar a la dirección del trabajo. Diferencia: ${diferencia.toFixed(2)} metros. Latitud (trabajo): ${direccionTrabajo.lat}, Longitud (trabajo): ${direccionTrabajo.lon}. Latitud (actual): ${position.coords.latitude}, Longitud (actual): ${position.coords.longitude}.`;
+            resultadoElement.textContent = `La ubicación no es similar a la dirección del trabajo. Intente de nuevo.`;
           }
         },
         (error) => {
           console.error('Error al obtener la ubicación:', error);
-          document.getElementById('resultado').textContent = 'No se pudo obtener la ubicación.';
+          document.getElementById('resultado').textContent = 'No se pudo obtener la ubicación. Intente de nuevo y acepte el permiso para acceder a su ubicacion';
         }
       );
     }
