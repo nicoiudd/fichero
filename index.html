@@ -65,13 +65,6 @@
       font-size: 16px;
       margin-top: 10px;
     }
-
-    /* Estilos para ajustar el margen inferior cuando el teclado está activo */
-    @media (max-width: 600px) {
-      section {
-        margin-bottom: 100px; /* Ajusta según sea necesario */
-      }
-    }
   </style>
 </head>
 <body>
@@ -104,38 +97,32 @@
         lon: -58.4702144   // Longitud exacta de la nueva dirección del trabajo
       };
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const distancia = calcularDistancia(
-              position.coords.latitude,
-              position.coords.longitude,
-              direccionTrabajo.lat,
-              direccionTrabajo.lon
-            );
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const distancia = calcularDistancia(
+            position.coords.latitude,
+            position.coords.longitude,
+            direccionTrabajo.lat,
+            direccionTrabajo.lon
+          );
 
-            const umbralDistancia = 50;  // Umbral de distancia en metros para considerar como similar
-            const esSimilar = distancia <= umbralDistancia;
+          const umbralDistancia = 50;  // Umbral de distancia en metros para considerar como similar
+          const esSimilar = distancia <= umbralDistancia;
 
-            const resultadoElement = document.getElementById('resultado');
-            if (esSimilar) {
-              resultadoElement.textContent = `La ubicación es similar a la dirección del trabajo. Usted ya registró su llegada. Que tenga buena jornada!`;
-            } else {
-              const diferencia = Math.abs(distancia - umbralDistancia);
-              resultadoElement.textContent = `La ubicación no es similar a la dirección del trabajo. Intente de nuevo.`;
-            }
-          },
-          (error) => {
-            console.error('Error al obtener la ubicación:', error);
-            document.getElementById('resultado').textContent = 'No se pudo obtener la ubicación. Intente de nuevo y acepte el permiso para acceder a su ubicación';
+          const resultadoElement = document.getElementById('resultado');
+          if (esSimilar) {
+            resultadoElement.textContent = `La ubicación es similar a la dirección del trabajo. Usted ya registro su llegada. Que tenga buena jornada!`;
+          } else {
+            const diferencia = Math.abs(distancia - umbralDistancia);
+            resultadoElement.textContent = `La ubicación no es similar a la dirección del trabajo. Intente de nuevo.`;
           }
-        );
-      } else {
-        // Geolocalización no está disponible
-        document.getElementById('resultado').textContent = 'La geolocalización no está disponible en su navegador.';
-      }
+        },
+        (error) => {
+          console.error('Error al obtener la ubicación:', error);
+          document.getElementById('resultado').textContent = 'No se pudo obtener la ubicación. Intente de nuevo y acepte el permiso para acceder a su ubicacion';
+        }
+      );
     }
   </script>
 </body>
 </html>
-
